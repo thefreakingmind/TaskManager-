@@ -1,0 +1,41 @@
+from flask  import Flask
+from collections import defaultdict
+from status import TaskStatus 
+
+class TaskManager(object):
+    def __init__(self):
+        self.data = defaultdict()
+
+    def upload_task(self,data, id ):
+        data[0: 1+n]
+
+    def get_task(self, id):
+        with persist(self):
+            return self.data.get(id)
+
+    def add_task(self):
+        with persist(self):
+            self.data[task.id] = task 
+
+    def stop(self, id):
+        with persist(self):
+            if id not in self.data.key():
+                return None
+            else:
+                return self.data.pop(id)
+    def update(self, task):
+        with persist(self):
+            self.data[task.id] = task
+
+
+task = TaskManager()
+
+class Task(object):
+    def __init__(self, id, status=status.CREATED, job, result, error):
+        self.result = result 
+        self.error = error
+        self.job = job
+        self.status = status
+        self.id = id
+        
+    @staticmethod
