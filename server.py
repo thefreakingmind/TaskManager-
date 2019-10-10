@@ -1,14 +1,13 @@
 from flask import Flask
-from numpy as np
 from taskmanager import TaskManager 
 from taskmanager  import Task 
 import logging
-
+from celery import * 
 
 app = Flask(__name__)
 log = logging.create_logger(app)
 
-taskworker = TaskManager()
+taskworker = TaskManager(task)
 
 ''' 
 The Code to Create The Complete Task Management System
@@ -28,10 +27,10 @@ def task(task_id):
         id = uuid.UUID(task_id)
     except Exception as e:
         log.error(e)
-        return "Error" 400
+        return "Error",  400
     task = taskworker.get_task(id)
     if task is None:
-        return "Task Does not Exist" 404
+        return "Task Does not Exist", 404
     if request.method == 'GET':
         return str(task)
     if request.method == 'PUT':
@@ -42,3 +41,13 @@ def task(task_id):
         latest_status = task.status
         task.delete_task(task.id)
         return latest_status, 200 
+
+@app.task()
+def task(task_id):
+    task = task_dao.get_task(uuid.UUID(task_id))
+    log.info("Task Running Started")
+    task.result()
+    print("Task Completed Successfully")
+    task.delete()
+    print("Task Stopped")
+

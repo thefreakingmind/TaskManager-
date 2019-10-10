@@ -30,7 +30,7 @@ class TaskManager(object):
 task = TaskManager()
 
 class Task(object):
-    def __init__(self, id, status=status.CREATED, job, result, error):
+    def __init__(self, id, status=status.CREATED, job, result=None, error=None):
         self.result = result 
         self.error = error
         self.job = job
