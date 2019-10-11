@@ -1,21 +1,21 @@
 from flask  import Flask
 from collections import defaultdict
-from status import TaskStatus 
-import uuid 
+from status import Status
+import uuid
+from collections import *
 
 class TaskManager(object):
     def __init__(self):
         self.data = defaultdict()
 
-
-    def get_task(self, id):
+    def get_task(self):
         with persist(self):
             return self.data.get(id)
 
     def add_task(self):
         with persist(self):
             self.data[task.id] = task 
-
+    # Stop the Task 
     def stop(self, id):
         with persist(self):
             if id not in self.data.key():
@@ -26,16 +26,24 @@ class TaskManager(object):
         with persist(self):
             self.data[task.id] = task
 
+    def clear_cache(self, key):
+        if key is not None:
+            return key 
+        else:
+            key = self.get.data(id) 
+            return key[mid+1]
 
-task = TaskManager()
+task = TaskManager(task)
 
 class Task(object):
-    def __init__(self, id, status=status.CREATED, job, result=None, error=None):
+    def __init__(self,id, status, 
+            job, result=None, error=None):
+        
+        self.id = id
         self.result = result 
         self.error = error
         self.job = job
         self.status = status
-        self.id = id
         
     @staticmethod
     def create_task():

@@ -3,16 +3,28 @@ from taskmanager import TaskManager
 from taskmanager  import Task 
 import logging
 from celery import * 
+from collections import defaultdict
+from collections import * 
 
 app = Flask(__name__)
 log = logging.create_logger(app)
 
-taskworker = TaskManager(task)
-
+taskworker = TaskManager(task_id)
 ''' 
 The Code to Create The Complete Task Management System
 Replacing the Existing one.
 '''
+
+# Tracking The Task Progress to Resume the Task 
+@app.route('/trackTask', method['GET'])
+def track_task(task_id):
+    task = defaultdict()
+    z = task.get(task_id)
+    if z is None:
+        return "Task is Empty", 400 
+    else:
+        return z
+
 
 @app.route('/task', methods['POST'])
 def create_task():
